@@ -1,0 +1,9 @@
+- Try adding words like hetrogenous computing ( which says both CPU and GPU but expressing it in a better way)
+- I optimized the computational performance using CUDA and TensorRT
+
+- SingleShot Multibox Detector
+- Computer Vision Annotation Tool (for labelling)
+- Pretrained models fine tuning (How to efficiently do this)
+-Optimizers: Adam, RMSprop, SGD
+- Cross validation using K-fold? / for object detection mean Average Precision.(mAP)
+-Tensorflow on tourchserve?

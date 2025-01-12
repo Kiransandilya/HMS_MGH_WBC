@@ -1,0 +1,30 @@
+
+- source folder
+- file name 
+- step-1: 
+		- image - temp
+		- pre-processing steps: Using CV
+			- take the input TIFF Frame
+			- Selecting structures (brightspots), based on pixel values (white areas)
+			- Enhancing those areas
+			- Apply gaussian blur
+			- Selectively eliminate portions based on area
+			- Draw bounding boxes on the enhanced spots
+			- We will take the centroid of every tracked cell
+			- Draw bounding boxes (green), along with the centroid (red) point for each frame
+
+- step-2:
+		-Training of ML:
+			- Training of SAM:
+
+				- Disadvantages:
+					i) It is for lot of datasets, not specific for this dataset. (time complexity)
+						- Can we tune it for our purpose alone: 
+					ii) We cannot modify the end prediction
+						- What can we do: If we have something that can let us play with labelling it will be good.
+
+
+
+
+		-Introduction of ML:
+			- 
