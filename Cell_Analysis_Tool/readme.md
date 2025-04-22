@@ -134,4 +134,3 @@ Choose from:
 ### Contact
 Fill this out:
 https://tinyurl.com/ycyybe4m
-![QR Code](QRcode.png)
