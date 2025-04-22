@@ -1,0 +1,10 @@
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# Python cache files
+__pycache__/
+*/__pycache__/
+
+# Python compiled files
+*.pyc
