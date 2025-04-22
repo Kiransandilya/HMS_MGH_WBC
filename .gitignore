@@ -8,3 +8,6 @@ __pycache__/
 
 # Python compiled files
 *.pyc
+
+# Python compiled files
+*.DS_Store
