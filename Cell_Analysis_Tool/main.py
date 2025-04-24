@@ -2,15 +2,28 @@ import sys
 import os
 import math
 import random
-from PyQt6.QtWidgets import (QApplication, QMainWindow, QFileDialog, QVBoxLayout, QHBoxLayout, 
-                           QWidget, QPushButton, QLabel, QFrame, QStackedWidget, QSizePolicy,
-                           QGraphicsOpacityEffect)
+import pyqtgraph as pg
+import numpy as np
+from pathlib import Path
+from PyQt6.QtWidgets import (
+    QApplication, QMainWindow, QFileDialog, QVBoxLayout, QHBoxLayout, 
+    QWidget, QPushButton, QLabel, QFrame, QStackedWidget, QSizePolicy,
+    QGraphicsOpacityEffect, QSplitter, QTabWidget, QGridLayout, QComboBox
+)
 from PyQt6.QtCore import (Qt, QSize, QPropertyAnimation, QEasingCurve, QTimer, QPointF, 
                         QVariantAnimation, QSequentialAnimationGroup, QParallelAnimationGroup,
                         pyqtProperty, QObject)
 from PyQt6.QtGui import (QIcon, QPixmap, QColor, QPalette, QFont, QFontDatabase, QPainter, 
                         QBrush, QPen, QLinearGradient, QRadialGradient, QPainterPath, 
                         QTransform, QFontMetrics)
+
+
+# Import other modules as in your original code
+try:
+    from complete_cell_analysis import CompleteCellAnalysisScreen
+except ImportError:
+    print("Warning: CompleteCellAnalysisScreen not found, complete cell analysis will be disabled.")
+    CompleteCellAnalysisScreen = None
 
 
 class StyleSheet:
@@ -1342,11 +1355,12 @@ class CellAnalysisApp(QMainWindow):
         super().__init__()
         self.dark_mode = True  # Start with dark mode
         self.init_ui()
+        self.has_complete_analysis = CompleteCellAnalysisScreen is not None
     
     def init_ui(self):
         # Set window properties
         self.setWindowTitle("Cell Analysis")
-        self.setMinimumSize(800, 600)
+        self.setMinimumSize(1000, 700)
         
         # Create central stacked widget
         self.central_widget = QStackedWidget()
@@ -1416,8 +1430,10 @@ class CellAnalysisApp(QMainWindow):
         self.analysis_type_screen.dark_mode = self.dark_mode
         self.analysis_type_screen.update_theme()
         
-        self.analysis_screen.dark_mode = self.dark_mode
-        self.analysis_screen.update_theme()
+        if hasattr(self, 'complete_analysis_screen') and self.complete_analysis_screen is not None:
+            self.complete_analysis_screen.dark_mode = self.dark_mode
+            self.complete_analysis_screen.update_theme()
+
     
     def show_welcome_screen(self):
         """Switch to welcome screen"""
@@ -1428,11 +1444,24 @@ class CellAnalysisApp(QMainWindow):
         """Switch to analysis type selection screen"""
         print("Switching to analysis type screen")  # Debug print
         self.central_widget.setCurrentWidget(self.analysis_type_screen)
-    
+        
     def show_analysis_screen(self):
         """Switch to analysis screen"""
         print("Switching to analysis screen")  # Debug print
-        self.central_widget.setCurrentWidget(self.analysis_screen)
+        
+        # Check if we need to create the analysis screen
+        if not hasattr(self, 'complete_analysis_screen') or self.complete_analysis_screen is None:
+            # Create the screen if the class is available
+            if CompleteCellAnalysisScreen is not None:
+                self.complete_analysis_screen = CompleteCellAnalysisScreen(self, self.dark_mode)
+                self.central_widget.addWidget(self.complete_analysis_screen)
+            else:
+                # Fall back to regular analysis screen if the class is not available
+                self.central_widget.setCurrentWidget(self.analysis_screen)
+                return
+        
+        # Switch to the complete analysis screen
+        self.central_widget.setCurrentWidget(self.complete_analysis_screen)
 
 
 def main():
