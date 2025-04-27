@@ -1,3 +1,4 @@
+#main.py
 import sys
 import os
 import math
@@ -18,13 +19,26 @@ from PyQt6.QtGui import (QIcon, QPixmap, QColor, QPalette, QFont, QFontDatabase,
                         QTransform, QFontMetrics)
 
 
+# # Import other modules as in your original code
+# try:
+#     from complete_cell_analysis import CompleteCellAnalysisScreen
+# except ImportError:
+#     print("Warning: CompleteCellAnalysisScreen not found, complete cell analysis will be disabled.")
+#     CompleteCellAnalysisScreen = None
+
 # Import other modules as in your original code
 try:
+    print("Attempting to import CompleteCellAnalysisScreen...")
     from complete_cell_analysis import CompleteCellAnalysisScreen
-except ImportError:
+    print("Import successful!")
+except ImportError as e:
+    print(f"Import error details: {str(e)}")
     print("Warning: CompleteCellAnalysisScreen not found, complete cell analysis will be disabled.")
     CompleteCellAnalysisScreen = None
-
+except Exception as e:
+    print(f"Unexpected error during import: {type(e).__name__}: {str(e)}")
+    print("Warning: CompleteCellAnalysisScreen not found, complete cell analysis will be disabled.")
+    CompleteCellAnalysisScreen = None
 
 class StyleSheet:
     """Style constants for dark and light themes in Apple style"""
@@ -1444,7 +1458,7 @@ class CellAnalysisApp(QMainWindow):
         """Switch to analysis type selection screen"""
         print("Switching to analysis type screen")  # Debug print
         self.central_widget.setCurrentWidget(self.analysis_type_screen)
-        
+            
     def show_analysis_screen(self):
         """Switch to analysis screen"""
         print("Switching to analysis screen")  # Debug print
